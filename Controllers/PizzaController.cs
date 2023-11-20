@@ -16,5 +16,10 @@ namespace PizzaShop.Controllers
             List<Pizza> objCategoryList = _db.Pizza.ToList();
             return View(objCategoryList);
         }
+
+        public IActionResult Create(Pizza obj)
+        {
+            return View(obj);
+        }
     }
 }
