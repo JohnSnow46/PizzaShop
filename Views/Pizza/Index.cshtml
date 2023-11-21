@@ -13,29 +13,46 @@
             </a>
         </div>
     </div>
-<table class="table table-bordered table-striped">
-    <thead>
-        <tr>
-            <th>
-                Category Name
-            </th>
-            <th>
-                Description
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach(var obj in Model.OrderBy(u=>u.Name))
-        {
+    <table class="table table-bordered table-striped">
+        <thead>
             <tr>
-                <td>@obj.Name</td>
-                <td>
-                    @obj.Description
-                </td>
+                <th>
+                    Category Name
+                </th>
+                <th>
+                    Price
+                </th>
+                <th>
+                    Description
+                </th>
+                <th>
+
+                </th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var obj in Model.OrderBy(u => u.Name))
+            {
+                <tr>
+                    <td>@obj.Name</td>
+                    <td>@obj.Price zł</td>
+                    <td>@obj.Description</td>
+                    <td>
+                        <div class="d-flex justify-content-center w-75">
+                            <div class="btn-group" role="group">
+                                <a asp-controller="Pizza" asp-action="Edit" class="btn btn-primary mx-2">
+                                    Edit
+                                </a>
+                                <a asp-controller="Pizza" asp-action="Delete" class="btn btn-primary mx-2">
+                                    Delete
+                                </a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 
 
 </div>

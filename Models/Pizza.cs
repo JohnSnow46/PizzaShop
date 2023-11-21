@@ -12,7 +12,8 @@ namespace PizzaShop.Models
         [DisplayName("Pizza Name")]
         public string Name { get; set; }
         [DisplayName("Description")]
-        [Range(1,1000)]
         public string Description { get; set; }
+        [Range(1, 1000)]
+        public decimal Price { get; set; }
     }
 }
