@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace PizzaShop.Models
 {
@@ -7,7 +8,11 @@ namespace PizzaShop.Models
         [Key]
         public int Id { get; set; }
         [Required]
+        [MaxLength(30)]
+        [DisplayName("Pizza Name")]
         public string Name { get; set; }
+        [DisplayName("Description")]
+        [Range(1,1000)]
         public string Description { get; set; }
     }
 }

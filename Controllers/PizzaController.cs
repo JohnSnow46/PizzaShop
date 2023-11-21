@@ -17,9 +17,22 @@ namespace PizzaShop.Controllers
             return View(objCategoryList);
         }
 
+        public IActionResult Create()
+        {
+            return View();
+        }
+        [HttpPost]
         public IActionResult Create(Pizza obj)
         {
-            return View(obj);
+            if (ModelState.IsValid)
+            {
+                _db.Pizza.Add(obj);
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View();
         }
+
+
     }
 }
