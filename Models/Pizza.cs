@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace PizzaShop.Models
@@ -15,5 +16,7 @@ namespace PizzaShop.Models
         public string Description { get; set; }
         [Range(1, 1000)]
         public decimal Price { get; set; }
+        [ValidateNever]
+        public string? ImageUrl { get; set; }
     }
 }

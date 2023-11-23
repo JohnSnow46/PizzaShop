@@ -38,12 +38,12 @@
                     <td>@obj.Price zł</td>
                     <td>@obj.Description</td>
                     <td>
-                        <div class="d-flex justify-content-center w-75">
+                        <div class="w-75 btn-group" role="group">
                             <div class="btn-group" role="group">
-                                <a asp-controller="Pizza" asp-action="Edit" class="btn btn-primary mx-2">
+                                <a asp-controller="Pizza" asp-action="Edit" asp-route-id="@obj.Id" class="btn btn-primary mx-2">
                                     Edit
                                 </a>
-                                <a asp-controller="Pizza" asp-action="Delete" class="btn btn-primary mx-2">
+                                <a asp-controller="Pizza" asp-action="Delete" asp-route-id="@obj.Id" class="btn btn-primary mx-2">
                                     Delete
                                 </a>
                             </div>
