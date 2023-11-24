@@ -28,20 +28,23 @@ namespace PizzaShop.Controllers
         [HttpPost]
         public IActionResult Create(Pizza obj, IFormFile? file)
         {
+            string fileName;
+            string pizzaPath;
             if (ModelState.IsValid)
             {
+
                 string wwwRootPath = _webHostEnvironment.WebRootPath;
-                if(file!=null)
+                if (file != null)
                 {
-                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-                    string pizzaPath = Path.Combine(wwwRootPath, @"images", "Pizza");
+                    fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                    pizzaPath = Path.Combine(wwwRootPath, @"images\Pizza\");
 
                     using (var fileStream = new FileStream(Path.Combine(pizzaPath, fileName), FileMode.Create))
                     {
                         file.CopyTo(fileStream);
                     }
-
-                    obj.ImageUrl = "images/Pizza/" + fileName;
+                    
+                    obj.ImageUrl = @"\images\Pizza\" + fileName;
                 }
 
                 _db.Pizza.Add(obj);
