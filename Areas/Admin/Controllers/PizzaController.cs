@@ -5,8 +5,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace PizzaShop.Controllers
+namespace PizzaShop.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class PizzaController : Controller
     {
         private readonly ApplicationDbContext _db;

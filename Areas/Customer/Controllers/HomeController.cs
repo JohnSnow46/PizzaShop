@@ -4,8 +4,9 @@ using PizzaShop.Data;
 using PizzaShop.Models;
 using System.Diagnostics;
 
-namespace PizzaShop.Controllers
+namespace PizzaShop.Areas.Customer.Controllers
 {
+    [Area("Customer")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -23,6 +24,18 @@ namespace PizzaShop.Controllers
             return View(pizza);
         }
 
+        public IActionResult Description(int id)
+        {
+            Pizza pizza = _db.Pizza.Find(id);
+
+            if (pizza == null)
+            {
+                return NotFound(); // Jeżeli pizza o danym ID nie istnieje, zwróć błąd 404
+            }
+
+            return View(pizza);
+        }
+
         public IActionResult Privacy()
         {
             return View();
@@ -33,5 +46,6 @@ namespace PizzaShop.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+ 
     }
 }

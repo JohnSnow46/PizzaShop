@@ -1,0 +1,43 @@
+﻿@model Pizza
+
+
+
+<form method="post" enctype="multipart/form-data">
+    <input asp-for="Id" hidden />
+    <div class="row">
+
+        <div class="col-2 text-center">
+            <img src="@Model.ImageUrl" class="img-fluid mx-auto" width="500" alt="@Model.Name">
+            <p class="mt-2">@Model.ImageUrl</p>
+        </div>
+
+        <div class="col-10">
+            <div class="border p-3 mt-4">
+                <div class="row pb-2">
+                    <h2 class="test-primary">Description</h2>
+                    <hr />
+                </div>
+
+                <div asp-validation-summary="All"></div>
+                <div class="mb-3">
+                    @Model.Name
+                </div>
+                <div class="mb-3">
+                    @Model.Description
+                </div>
+                <div class="mb-3">
+                    @Model.Price zł
+                </div>
+                <div class="col-6 col-md-3">
+                    <button type="submit" class="btn-primary form-control">Add</button>
+                </div>
+                <a asp-controller="" asp-action="Index" class="btn btn-primary">
+                    Back
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+
+</form>
