@@ -3,6 +3,7 @@ using PizzaShop.Data;
 using PizzaShop.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace PizzaShop.Controllers
 {
@@ -10,6 +11,7 @@ namespace PizzaShop.Controllers
     {
         private readonly ApplicationDbContext _db;
         private readonly IWebHostEnvironment _webHostEnvironment;
+
         public PizzaController(ApplicationDbContext db, IWebHostEnvironment webHostEnvironment)
         {
             _db = db;
@@ -68,15 +70,55 @@ namespace PizzaShop.Controllers
             return View(pizzaFromDb);
         }
         [HttpPost]
-        public IActionResult Edit(Pizza obj)
+        public IActionResult Edit(int id, Pizza updatedPizza, IFormFile? file)
         {
+            if (id != updatedPizza.Id)
+            {
+                return NotFound();
+            }
+
             if (ModelState.IsValid)
             {
-                _db.Pizza.Update(obj);
+                Pizza existingPizza = _db.Pizza.Find(id);
+
+                if (existingPizza == null)
+                {
+                    return NotFound();
+                }
+
+                existingPizza.Name = updatedPizza.Name;
+                existingPizza.Description = updatedPizza.Description;
+                existingPizza.Price = updatedPizza.Price;
+
+                if (file != null)
+                {
+                    string wwwRootPath = _webHostEnvironment.WebRootPath;
+
+                    if (!string.IsNullOrEmpty(existingPizza.ImageUrl))
+                    {
+                        string oldImagePath = Path.Combine(wwwRootPath, existingPizza.ImageUrl.TrimStart('\\'));
+                        if (System.IO.File.Exists(oldImagePath))
+                        {
+                            System.IO.File.Delete(oldImagePath);
+                        }
+                    }
+
+                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                    string pizzaPath = Path.Combine(wwwRootPath, @"images\Pizza\");
+
+                    using (var fileStream = new FileStream(Path.Combine(pizzaPath, fileName), FileMode.Create))
+                    {
+                        file.CopyTo(fileStream);
+                    }
+
+                    existingPizza.ImageUrl = @"\images\Pizza\" + fileName;
+                }
+
                 _db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View();
+
+            return View("Edit", updatedPizza);
         }
 
         public IActionResult Delete(int? id)
@@ -100,6 +142,19 @@ namespace PizzaShop.Controllers
             {
                 NotFound();
             }
+
+            Pizza existingPizza = _db.Pizza.Find(id);
+
+            if (!string.IsNullOrEmpty(existingPizza.ImageUrl))
+            {
+                string wwwRootPath = _webHostEnvironment.WebRootPath;
+                string oldImagePath = Path.Combine(wwwRootPath, existingPizza.ImageUrl.TrimStart('\\'));
+                if (System.IO.File.Exists(oldImagePath))
+                {
+                    System.IO.File.Delete(oldImagePath);
+                }
+            }
+
             _db.Pizza.Remove(obj);
             _db.SaveChanges();
             return RedirectToAction("Index");
