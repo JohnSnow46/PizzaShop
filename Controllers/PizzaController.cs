@@ -45,7 +45,7 @@ namespace PizzaShop.Controllers
                     {
                         file.CopyTo(fileStream);
                     }
-                    
+
                     obj.ImageUrl = @"\images\Pizza\" + fileName;
                 }
 
@@ -160,5 +160,23 @@ namespace PizzaShop.Controllers
             return RedirectToAction("Index");
         }
 
+        public IActionResult Description(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            Pizza pizzaFromDb = _db.Pizza.Find(id);
+            if (pizzaFromDb == null)
+            {
+                return NotFound();
+            }
+            return View(pizzaFromDb);
+        }
+        [HttpPost]
+        public IActionResult Description(int id, Pizza updatedPizza, IFormFile? file)
+        {
+            return View("Index");
+        }
     }
 }
