@@ -12,7 +12,7 @@ namespace PizzaShop.Data
         }
 
         public DbSet<Pizza> Pizza { get; set; }
-
+        public DbSet<ApplicationUser> AplicationUsers { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Pizza>().HasData(
